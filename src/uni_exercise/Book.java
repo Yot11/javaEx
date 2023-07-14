@@ -20,6 +20,18 @@ public class Book {
         return currentBorrowerId;
     }
 
+    public int getComicValue() {
+        return comicValue;
+    }
+
+    public int getDramaticValue() {
+        return dramaticValue;
+    }
+
+    public int getEducationalValue() {
+        return educationalValue;
+    }
+
     public int getLiteraryValue(){
         return comicValue + dramaticValue + educationalValue;
     }
