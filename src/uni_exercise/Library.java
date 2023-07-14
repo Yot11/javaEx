@@ -28,7 +28,7 @@ public class Library {
         
     }
     public void addBookToLibrary (Book book){
-        if(currentOpenBookSpot < bookArray.length){
+        if(currentOpenBookSpot < libMaxBookCapacity){
             boolean isBookAlredyInLibrary = false;
             for (int i = 0; i < currentOpenBookSpot; i++) {
                if(bookArray[i].equals(book)){
@@ -119,8 +119,8 @@ public class Library {
     }
 // get patron id 
     
-    public void addPatronToLibrary (Patron patron){
-        if(currentOpenPatronSpot < patronArray.length){
+    public void registerPatronToLibrary (Patron patron){
+        if(currentOpenPatronSpot < libMaxPatronCapacity){
             boolean ispatronAlredyInLibrary = false;
             for (int i = 0; i < currentOpenPatronSpot; i++) {
                if(patronArray[i].equals(patron)){
@@ -144,10 +144,22 @@ public class Library {
     public void returnBook(String bookTitle){
         int bookRequestedId = findBookIdByTitle(bookTitle);
         if (isBookValid(bookTitle)) {
-            bookBorrowStatus[bookRequestedId] = false;
+            bookBorrowStatus[bookRequestedId] = true;
         }
          
     }
 
+    // can be alot better. fore example get the sum fo all the digrent valu tips of the book and then sugest the patron books based on what he likes.
+    public void suggestBookToPatron(int patronId){
+        for (int i = 0; i < bookArray.length; i++) {
+            if (bookArray[i].getLiteraryValue()<3) {
+                System.out.println(bookArray[i] + "is not verry good");
+            } else if (bookArray[i].getLiteraryValue()<7) {
+                System.out.println(bookArray[i] + "is good");
+            } else {
+                System.out.println(bookArray[i] + "is verry good");
+            }
+        }
+    }
 
 }
