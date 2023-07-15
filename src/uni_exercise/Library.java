@@ -200,6 +200,17 @@ public class Library {
         }
     }
 
+    public void booksLeftToBorrw(String userName){
+        int patronId = findPatronIdByUserName(userName);
+        for (int i = 0; i < patronArray.length; i++) {
+            if (i == patronId) {
+                System.out.println("you have brood " + patronArray[i] + "books out of " + libMaxBorrowedBooks);
+            } else {
+                System.out.println("patron not fond");
+            }
+        }
+    }
+
 
 
 }
