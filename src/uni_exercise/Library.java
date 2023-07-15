@@ -19,7 +19,6 @@ public class Library {
         libMaxBookCapacity = maxBookCapacity;
         libMaxBorrowedBooks = maxBorrowedBooks;
         libMaxPatronCapacity = maxPatronCapacity;
-        bookArray = new Book[libMaxBookCapacity];
 
         
         currentOpenBookSpot = 0;
@@ -65,24 +64,24 @@ public class Library {
     }
 
    public void borrwBook(String bookTitle, String userName) {
-    int borrowerId = findPatronIdByUserName(userName);
-    if (borrowerId >= 0) { // Check if patron is found
-        int bookRequestedId = findBookIdByTitle(bookTitle);
-        if (bookRequestedId >= 0 && bookRequestedId < currentOpenBookSpot && !bookBorrowStatus[bookRequestedId]) {
-            if (numOfBorrowedBooksPerPatronArray[borrowerId] < libMaxBorrowedBooks) {
-                bookBorrowStatus[bookRequestedId] = false;
-                numOfBorrowedBooksPerPatronArray[borrowerId]++;
-                System.out.println("The book " + bookTitle + " was borrowed successfully.");
+        int borrowerId = findPatronIdByUserName(userName);
+        if (borrowerId >= 0) { // Check if patron is found
+            int bookRequestedId = findBookIdByTitle(bookTitle);
+            if (bookRequestedId >= 0 && bookRequestedId < currentOpenBookSpot && !bookBorrowStatus[bookRequestedId]) {
+                if (numOfBorrowedBooksPerPatronArray[borrowerId] < libMaxBorrowedBooks) {
+                    bookBorrowStatus[bookRequestedId] = false;
+                    numOfBorrowedBooksPerPatronArray[borrowerId]++;
+                    System.out.println("The book " + bookTitle + " was borrowed successfully.");
+                } else {
+                    // System.out.println("You cannot borrow this many books.");
+                }
             } else {
-                // System.out.println("You cannot borrow this many books.");
+                // System.out.println("This book is not available for borrowing.");
             }
         } else {
-            // System.out.println("This book is not available for borrowing.");
+            System.out.println("Patron not found.");
         }
-    } else {
-        System.out.println("Patron not found.");
     }
-}
 
 
     public int findPatronIdByUserName(String userName) {
@@ -173,27 +172,18 @@ public class Library {
     //     }
     // }
     public void sortBooksByValue(String value) {
-    switch (value) {
-        case "comic":
-            Arrays.sort(bookArray, 0, currentOpenBookSpot, Comparator.nullsLast(Comparator.comparingInt(Book::getComicValue).reversed()));
-            break;
-        case "dramatic":
-            Arrays.sort(bookArray, 0, currentOpenBookSpot, Comparator.nullsLast(Comparator.comparingInt(Book::getDramaticValue).reversed()));
-            break;
-        case "educational":
-            Arrays.sort(bookArray, 0, currentOpenBookSpot, Comparator.nullsLast(Comparator.comparingInt(Book::getEducationalValue).reversed()));
-            break;
-        default:
-            System.out.println("Invalid value provided.");
-            break;
+        BookComparator bc = new BookComparator(value);
+        Arrays.sort(bookArray, bc);
     }
-}
 
-    public void suggestHighestValuedBooks(String value, int count) {
+    
+
+    public void suggestHighestValuedBooks(String value) {
         sortBooksByValue(value);
-
+        int count = currentOpenBookSpot/2;
+        Math.round(count);
         int booksToPrint = Math.min(count, currentOpenBookSpot);
-        System.out.println("Printing " + booksToPrint + " highest valued books by " + value + ":");
+        System.out.println("Printing highest valued books by " + value + ":");
 
         for (int i = 0; i < booksToPrint; i++) {
             System.out.println(bookArray[i]);

@@ -38,6 +38,6 @@ public class Main {
         System.out.println("Book 2 available: " + book2Available);
 
         // Suggest highest valued books to a patron
-        library.suggestHighestValuedBooks("comic", 2);
+        library.suggestHighestValuedBooks("comic");
     }
 }
